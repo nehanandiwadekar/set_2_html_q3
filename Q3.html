@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom HTML5 Video Player</title>
+    <style>
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        video {
+            width: 100%;
+            height: auto;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .controls button, .controls select {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="video-container">
+    <video id="video" controls>
+        <source src="your-video-file.mp4" type="video/mp4">
+        <track src="your-subtitles-file.vtt" kind="subtitles" srclang="en" label="English">
+        Your browser does not support the video tag.
+    </video>
+    <div class="controls">
+        <button id="play-pause">Play</button>
+        <button id="fullscreen">Fullscreen</button>
+        <label for="speed">Speed:</label>
+        <select id="speed">
+            <option value="0.5">0.5x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+        </select>
+    </div>
+</div>
+
+<script>
+    const video = document.getElementById('video');
+    const playPauseBtn = document.getElementById('play-pause');
+    const fullscreenBtn = document.getElementById('fullscreen');
+    const speedSelect = document.getElementById('speed');
+
+    playPauseBtn.addEventListener('click', () => {
+        if (video.paused || video.ended) {
+            video.play();
+            playPauseBtn.textContent = 'Pause';
+        } else {
+            video.pause();
+            playPauseBtn.textContent = 'Play';
+        }
+    });
+
+    fullscreenBtn.addEventListener('click', () => {
+        if (video.requestFullscreen) {
+            video.requestFullscreen();
+        } else if (video.mozRequestFullScreen) { /* Firefox */
+            video.mozRequestFullScreen();
+        } else if (video.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) { /* IE/Edge */
+            video.msRequestFullscreen();
+        }
+    });
+
+    speedSelect.addEventListener('change', () => {
+        video.playbackRate = speedSelect.value;
+    });
+</script>
+
+</body>
+</html>
